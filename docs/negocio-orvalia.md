@@ -14,14 +14,14 @@ final é feita por uma rede de **parceiros logísticos** (transportadoras e agre
 a entrega volta. Esses casos caem na **Central de Repasses Pendentes (CRP)**, uma equipe pequena que acompanha
 cada **protocolo** até o fim.
 
-| Peça | Na Orvalia |
-|---|---|
-| Sistema de origem | **ERP Orvalia**, que exporta todo dia o **Extrato de Repasses (EXR)** |
-| Quem a CRP acompanha | Os **parceiros da carteira**: só os protocolos desses parceiros entram |
-| Unidade de trabalho | O **protocolo** (`protocolo`, identificador único do repasse) |
-| Onde se trabalha | A tela **Acompanhamento**, com uma guia por região |
-| Equipes | **Hub regional** (um por região) e **Central** (equipe da matriz da CRP) |
-| Quem consome | O **Painel CRP**, que lê a camada consolidada |
+| Peça                 | Na Orvalia                                                               |
+| -------------------- | ------------------------------------------------------------------------ |
+| Sistema de origem    | **ERP Orvalia**, que exporta todo dia o **Extrato de Repasses (EXR)**    |
+| Quem a CRP acompanha | Os **parceiros da carteira**: só os protocolos desses parceiros entram   |
+| Unidade de trabalho  | O **protocolo** (`protocolo`, identificador único do repasse)            |
+| Onde se trabalha     | A tela **Acompanhamento**, com uma guia por região                       |
+| Equipes              | **Hub regional** (um por região) e **Central** (equipe da matriz da CRP) |
+| Quem consome         | O **Painel CRP**, que lê a camada consolidada                            |
 
 ### Antes e depois
 
@@ -35,15 +35,15 @@ campos que são dela.
 
 ### Regiões
 
-| Código | Região | Código | Região |
-|---|---|---|---|
-| R01 | Vale do Aruã | R08 | Litoral Leste |
-| R02 | Serra Morena | R09 | Planalto Sul |
-| R03 | Costa dos Ventos | R10 | Campos do Oeste |
-| R04 | Baixada Verde | R11 | Chapada Alta |
-| R05 | Sertão Novo | R12 | Delta Norte |
-| R06 | Cerrado Central | R13 | Fronteira Azul |
-| R07 | Ribeira Funda | | |
+| Código | Região           | Código | Região          |
+| ------ | ---------------- | ------ | --------------- |
+| R01    | Vale do Aruã     | R08    | Litoral Leste   |
+| R02    | Serra Morena     | R09    | Planalto Sul    |
+| R03    | Costa dos Ventos | R10    | Campos do Oeste |
+| R04    | Baixada Verde    | R11    | Chapada Alta    |
+| R05    | Sertão Novo      | R12    | Delta Norte     |
+| R06    | Cerrado Central  | R13    | Fronteira Azul  |
+| R07    | Ribeira Funda    |        |                 |
 
 Cada região tem cidades e **filiais** (`F001…`) e um **hub regional** responsável. Uma das regiões tem só uma
 filial; as outras têm várias.
@@ -53,15 +53,15 @@ filial; as outras têm várias.
 O ERP exporta todo dia um CSV separado por `;`, com cerca de 40 mil linhas e 27 colunas, sempre completo (todos
 os protocolos de todos os parceiros). As colunas que importam:
 
-| Coluna | Exemplo | Uso |
-|---|---|---|
-| `PROTOCOLO` | `RP-2026-0481273` | Chave. Pode vir repetido no mesmo extrato |
-| `PARCEIRO` | `TRANSLUZ CARGAS LTDA` | Digitado de jeitos diferentes (acento, espaço, abreviação) |
-| `AREA` | `TRIAGEM_FINANCEIRA` | Setor do ERP onde o protocolo está |
-| `STATUS` | `ABERTO` | Situação no setor |
-| `VALOR` | `1.234,56` | Formato brasileiro, como texto |
-| `DATA_DEPOSITO` | `03/02/2026` | Define o ano e, portanto, a base e o arquivo de destino |
-| `DATA_ENTRADA` | `05/02/2026` | Entrada no ERP |
+| Coluna          | Exemplo                | Uso                                                        |
+| --------------- | ---------------------- | ---------------------------------------------------------- |
+| `PROTOCOLO`     | `RP-2026-0481273`      | Chave. Pode vir repetido no mesmo extrato                  |
+| `PARCEIRO`      | `TRANSLUZ CARGAS LTDA` | Digitado de jeitos diferentes (acento, espaço, abreviação) |
+| `AREA`          | `TRIAGEM_FINANCEIRA`   | Setor do ERP onde o protocolo está                         |
+| `STATUS`        | `ABERTO`               | Situação no setor                                          |
+| `VALOR`         | `1.234,56`             | Formato brasileiro, como texto                             |
+| `DATA_DEPOSITO` | `03/02/2026`           | Define o ano e, portanto, a base e o arquivo de destino    |
+| `DATA_ENTRADA`  | `05/02/2026`           | Entrada no ERP                                             |
 
 O resto é ruído realista: centro de custo, lote, usuário do ERP, observação livre.
 
@@ -108,13 +108,13 @@ todas as ocorrências, com aviso.
 
 ### RN-04 · Fase (derivada de área + status)
 
-| Área | Status | Fase |
-|---|---|---|
-| `AUDITORIA` | qualquer | Em auditoria |
-| `TRIAGEM_FINANCEIRA` | `ABERTO`, `RECUSADO` | Triagem financeira |
-| `CONFERENCIA_PAGAMENTOS`, `CONTAS_A_PAGAR`, `CONFERENCIA_FISCAL` | `ABERTO`, `ENCERRADO`, `CONTESTADO` | **Concluído** |
-| `RELACIONAMENTO_PARCEIRO`, `APOIO_RELACIONAMENTO` | `ENCERRADO`, `CONTESTADO` | **Concluído** |
-| qualquer outra combinação | | Em tratativa |
+| Área                                                             | Status                              | Fase               |
+| ---------------------------------------------------------------- | ----------------------------------- | ------------------ |
+| `AUDITORIA`                                                      | qualquer                            | Em auditoria       |
+| `TRIAGEM_FINANCEIRA`                                             | `ABERTO`, `RECUSADO`                | Triagem financeira |
+| `CONFERENCIA_PAGAMENTOS`, `CONTAS_A_PAGAR`, `CONFERENCIA_FISCAL` | `ABERTO`, `ENCERRADO`, `CONTESTADO` | **Concluído**      |
+| `RELACIONAMENTO_PARCEIRO`, `APOIO_RELACIONAMENTO`                | `ENCERRADO`, `CONTESTADO`           | **Concluído**      |
+| qualquer outra combinação                                        |                                     | Em tratativa       |
 
 As conferências são **pós-processo**: quando o protocolo chega lá, para a CRP ele está concluído.
 
@@ -181,13 +181,13 @@ do cadastro. Se o nome for de um parceiro conhecido de fora da carteira, o aviso
 
 ## 6. Glossário
 
-| Termo | Significado |
-|---|---|
-| Protocolo | Um repasse a um parceiro, do início à conclusão |
-| Carteira | Os parceiros cujos protocolos a CRP acompanha |
-| Acompanhamento | Os protocolos abertos, com uma guia por região |
-| Arquivo do ano | Os concluídos, pelo ano do depósito |
-| Devolução | Protocolo que volta ao parceiro; tem destino próprio |
-| Quebra de regra | Campo obrigatório em branco: apontado, nunca corrigido pelo motor |
-| Consolidada | A visão única que alimenta o Painel CRP |
-| Dia de negócio | O dia do calendário fictício da Orvalia ao qual o extrato se refere |
+| Termo           | Significado                                                         |
+| --------------- | ------------------------------------------------------------------- |
+| Protocolo       | Um repasse a um parceiro, do início à conclusão                     |
+| Carteira        | Os parceiros cujos protocolos a CRP acompanha                       |
+| Acompanhamento  | Os protocolos abertos, com uma guia por região                      |
+| Arquivo do ano  | Os concluídos, pelo ano do depósito                                 |
+| Devolução       | Protocolo que volta ao parceiro; tem destino próprio                |
+| Quebra de regra | Campo obrigatório em branco: apontado, nunca corrigido pelo motor   |
+| Consolidada     | A visão única que alimenta o Painel CRP                             |
+| Dia de negócio  | O dia do calendário fictício da Orvalia ao qual o extrato se refere |

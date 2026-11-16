@@ -18,7 +18,8 @@ O projeto segue o fluxo de uma equipe de produto: tudo começa numa issue e entr
    ```
 
    Escopos usados: `engine`, `synth`, `db`, `web`, `analytics`, `ci`, `docs`, `adr`.
-4. **Pull Request** com o template preenchido, `Closes #N` e o CI verde. A entrada é por *Squash and merge*, e a
+
+4. **Pull Request** com o template preenchido, `Closes #N` e o CI verde. A entrada é por _Squash and merge_, e a
    branch é apagada depois.
 5. **Releases:** ao fechar um marco do [roteiro](docs/roadmap.md), sai uma tag SemVer (`v0.1.0`) com release notes.
 
@@ -35,10 +36,10 @@ O projeto segue o fluxo de uma equipe de produto: tudo começa numa issue e entr
 
 ## Ambientes
 
-| Ambiente | Banco | Deploy |
-|---|---|---|
-| Local | PGlite em `.pglite/` | `npm run dev` |
-| Preview | Branch Neon por PR | Automático a cada PR |
-| Produção (demo) | Branch Neon `main` | Só a partir da `main` |
+| Ambiente        | Banco                | Deploy                |
+| --------------- | -------------------- | --------------------- |
+| Local           | PGlite em `.pglite/` | `npm run dev`         |
+| Preview         | Branch Neon por PR   | Automático a cada PR  |
+| Produção (demo) | Branch Neon `main`   | Só a partir da `main` |
 
 Seed, testes e experimentos **nunca** rodam contra produção.
