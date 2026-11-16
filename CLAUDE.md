@@ -12,9 +12,13 @@ Antes de mexer em regra, leia `docs/negocio-orvalia.md` (RN-01…RN-11) e `docs/
 - **Repositório público.** Só dados sintéticos e vocabulário da Orvalia. Antes de cada push, rode a busca de termos
   sensíveis da lista local (`.sensitive-terms.txt`, fora do Git) sobre os arquivos alterados.
 - `.private/` é material de bastidor e fica fora do Git: nunca copie conteúdo de lá para arquivos versionados.
-- Confira a branch antes de alterar arquivos. Na `main`: `git pull` e crie a branch.
+- Confira a branch antes de alterar arquivos. Se não for a certa, avise e passe os comandos: quem troca de branch,
+  sincroniza a `main` e faz `git add`/`commit`/`push` é o dono do repositório. O Claude prepara as mudanças, roda os
+  checks e entrega os commits agrupados por assunto, com a mensagem pronta.
+- Sem assinatura de ferramenta em commits, PRs ou documentos.
 - Teste de regra de negócio cita o ID no nome: `it("RN-07: devolve só com DEVOLVIDO nos dois estágios")`.
-- `fase` é derivada no banco. Nunca escreva `fase` pelo código.
+- `fase` é coluna gerada no banco (RN-04) e nunca é escrita. O motor usa `derivarFase`, com a mesma regra; o teste
+  `packages/engine/src/fase.test.ts` compara as duas. Mudou uma, mude a outra.
 - Escrita da aplicação só nos campos das equipes, com autorização no servidor (RN-09).
 - Mudança de esquema = migration Drizzle nova. Nunca edite uma migration já aplicada na `main`.
 - Testes e seed rodam no PGlite. Nunca use a `DATABASE_URL` de produção fora do ambiente de produção.
@@ -26,4 +30,9 @@ Antes de mexer em regra, leia `docs/negocio-orvalia.md` (RN-01…RN-11) e `docs/
 - Pacotes TypeScript são consumidos direto do código-fonte (`exports` apontando para `src/*.ts`), sem build.
   Imports relativos usam a extensão `.ts`.
 - TypeScript fixado em 6.0 enquanto o typescript-eslint não suportar o 7.
+- `npm run db:generate`: gera a migration depois de mudar `packages/db/src/schema`. O CI falha se o esquema e as
+  migrations divergirem.
+- `npm run db:migrate`: aplica as migrations no banco local (`.pglite/`, ou `PGLITE_DIR`).
+- Testes com banco usam `criarBancoDeTeste()` (PGlite em memória, já migrado) e `TIMEOUT_BANCO_MS` em hooks/testes
+  que abrem banco.
 - Em breve: `npm run dev` (Etapa 0), `npm run synth` (Etapa 1), `npm run engine` (Etapa 2).

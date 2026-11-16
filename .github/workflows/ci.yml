@@ -30,6 +30,12 @@ jobs:
       - run: npm run typecheck
       - run: npm test
       - run: npm run build
+      - name: Migrations em dia com o esquema
+        # Se alguém mudar o esquema sem gerar a migration, o drizzle-kit cria um arquivo novo aqui.
+        run: |
+          npm run db:generate
+          git add -N packages/db/drizzle
+          git diff --exit-code -- packages/db/drizzle
 
   gitleaks:
     name: Segredos (Gitleaks)

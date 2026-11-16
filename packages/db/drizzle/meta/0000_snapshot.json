@@ -1,0 +1,787 @@
+{
+  "id": "f47bc203-bf46-418c-94a6-454e70626e79",
+  "prevId": "00000000-0000-0000-0000-000000000000",
+  "version": "7",
+  "dialect": "postgresql",
+  "tables": {
+    "audit.execucoes": {
+      "name": "execucoes",
+      "schema": "audit",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "uuid",
+          "primaryKey": true,
+          "notNull": true,
+          "default": "gen_random_uuid()"
+        },
+        "dia_negocio": {
+          "name": "dia_negocio",
+          "type": "date",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "modo": {
+          "name": "modo",
+          "type": "modo_execucao",
+          "typeSchema": "audit",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "situacao": {
+          "name": "situacao",
+          "type": "situacao_execucao",
+          "typeSchema": "audit",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "'em_andamento'"
+        },
+        "codigo_saida": {
+          "name": "codigo_saida",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "iniciada_em": {
+          "name": "iniciada_em",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        },
+        "terminada_em": {
+          "name": "terminada_em",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "extrato_sha256": {
+          "name": "extrato_sha256",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "linhas_extrato": {
+          "name": "linhas_extrato",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "versao_motor": {
+          "name": "versao_motor",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "versao_regras": {
+          "name": "versao_regras",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "contagens": {
+          "name": "contagens",
+          "type": "jsonb",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "'{}'::jsonb"
+        },
+        "tempos_ms": {
+          "name": "tempos_ms",
+          "type": "jsonb",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "'{}'::jsonb"
+        },
+        "mensagem": {
+          "name": "mensagem",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        }
+      },
+      "indexes": {
+        "execucoes_dia_idx": {
+          "name": "execucoes_dia_idx",
+          "columns": [
+            {
+              "expression": "dia_negocio",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "execucoes_uma_gravacao_por_dia": {
+          "name": "execucoes_uma_gravacao_por_dia",
+          "columns": [
+            {
+              "expression": "dia_negocio",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": true,
+          "where": "\"audit\".\"execucoes\".\"modo\" = 'gravacao' and \"audit\".\"execucoes\".\"situacao\" in ('gravada', 'gravada_com_pendencia_painel')",
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        }
+      },
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {
+        "execucoes_sha256_formato": {
+          "name": "execucoes_sha256_formato",
+          "value": "\"audit\".\"execucoes\".\"extrato_sha256\" is null or \"audit\".\"execucoes\".\"extrato_sha256\" ~ '^[0-9a-f]{64}$'"
+        },
+        "execucoes_termino_apos_inicio": {
+          "name": "execucoes_termino_apos_inicio",
+          "value": "\"audit\".\"execucoes\".\"terminada_em\" is null or \"audit\".\"execucoes\".\"terminada_em\" >= \"audit\".\"execucoes\".\"iniciada_em\""
+        }
+      },
+      "isRLSEnabled": false
+    },
+    "crp.filiais": {
+      "name": "filiais",
+      "schema": "crp",
+      "columns": {
+        "codigo": {
+          "name": "codigo",
+          "type": "text",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "regiao": {
+          "name": "regiao",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "cidade": {
+          "name": "cidade",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        }
+      },
+      "indexes": {
+        "filiais_regiao_idx": {
+          "name": "filiais_regiao_idx",
+          "columns": [
+            {
+              "expression": "regiao",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        }
+      },
+      "foreignKeys": {
+        "filiais_regiao_regioes_codigo_fk": {
+          "name": "filiais_regiao_regioes_codigo_fk",
+          "tableFrom": "filiais",
+          "tableTo": "regioes",
+          "schemaTo": "crp",
+          "columnsFrom": [
+            "regiao"
+          ],
+          "columnsTo": [
+            "codigo"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "crp.equipe": {
+      "name": "equipe",
+      "schema": "crp",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "integer",
+          "primaryKey": true,
+          "notNull": true,
+          "identity": {
+            "type": "always",
+            "name": "equipe_id_seq",
+            "schema": "crp",
+            "increment": "1",
+            "startWith": "1",
+            "minValue": "1",
+            "maxValue": "2147483647",
+            "cache": "1",
+            "cycle": false
+          }
+        },
+        "nome": {
+          "name": "nome",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "equipe": {
+          "name": "equipe",
+          "type": "tipo_equipe",
+          "typeSchema": "crp",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "regiao": {
+          "name": "regiao",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "ativo": {
+          "name": "ativo",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": true,
+          "default": true
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "equipe_regiao_regioes_codigo_fk": {
+          "name": "equipe_regiao_regioes_codigo_fk",
+          "tableFrom": "equipe",
+          "tableTo": "regioes",
+          "schemaTo": "crp",
+          "columnsFrom": [
+            "regiao"
+          ],
+          "columnsTo": [
+            "codigo"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {
+        "equipe_regiao_do_hub": {
+          "name": "equipe_regiao_do_hub",
+          "value": "(\"crp\".\"equipe\".\"equipe\" = 'hub') = (\"crp\".\"equipe\".\"regiao\" is not null)"
+        }
+      },
+      "isRLSEnabled": false
+    },
+    "crp.parceiros_carteira": {
+      "name": "parceiros_carteira",
+      "schema": "crp",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "integer",
+          "primaryKey": true,
+          "notNull": true,
+          "identity": {
+            "type": "always",
+            "name": "parceiros_carteira_id_seq",
+            "schema": "crp",
+            "increment": "1",
+            "startWith": "1",
+            "minValue": "1",
+            "maxValue": "2147483647",
+            "cache": "1",
+            "cycle": false
+          }
+        },
+        "nome": {
+          "name": "nome",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "nome_normalizado": {
+          "name": "nome_normalizado",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "regiao": {
+          "name": "regiao",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "cidade_hub": {
+          "name": "cidade_hub",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "analista_hub_id": {
+          "name": "analista_hub_id",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "analista_central_id": {
+          "name": "analista_central_id",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "parceiros_carteira_regiao_regioes_codigo_fk": {
+          "name": "parceiros_carteira_regiao_regioes_codigo_fk",
+          "tableFrom": "parceiros_carteira",
+          "tableTo": "regioes",
+          "schemaTo": "crp",
+          "columnsFrom": [
+            "regiao"
+          ],
+          "columnsTo": [
+            "codigo"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        },
+        "parceiros_carteira_analista_hub_id_equipe_id_fk": {
+          "name": "parceiros_carteira_analista_hub_id_equipe_id_fk",
+          "tableFrom": "parceiros_carteira",
+          "tableTo": "equipe",
+          "schemaTo": "crp",
+          "columnsFrom": [
+            "analista_hub_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        },
+        "parceiros_carteira_analista_central_id_equipe_id_fk": {
+          "name": "parceiros_carteira_analista_central_id_equipe_id_fk",
+          "tableFrom": "parceiros_carteira",
+          "tableTo": "equipe",
+          "schemaTo": "crp",
+          "columnsFrom": [
+            "analista_central_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {
+        "parceiros_carteira_nome_normalizado_unique": {
+          "name": "parceiros_carteira_nome_normalizado_unique",
+          "nullsNotDistinct": false,
+          "columns": [
+            "nome_normalizado"
+          ]
+        }
+      },
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "crp.protocolos": {
+      "name": "protocolos",
+      "schema": "crp",
+      "columns": {
+        "protocolo": {
+          "name": "protocolo",
+          "type": "text",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "destino": {
+          "name": "destino",
+          "type": "destino",
+          "typeSchema": "crp",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "'acompanhamento'"
+        },
+        "base": {
+          "name": "base",
+          "type": "base",
+          "typeSchema": "crp",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "regiao": {
+          "name": "regiao",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "praca": {
+          "name": "praca",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "parceiro_id": {
+          "name": "parceiro_id",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "area": {
+          "name": "area",
+          "type": "area",
+          "typeSchema": "crp",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "status": {
+          "name": "status",
+          "type": "status",
+          "typeSchema": "crp",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "fase": {
+          "name": "fase",
+          "type": "fase",
+          "typeSchema": "crp",
+          "primaryKey": false,
+          "notNull": true,
+          "generated": {
+            "as": "case\n  when area = 'AUDITORIA' then 'EM_AUDITORIA'::crp.fase\n  when area = 'TRIAGEM_FINANCEIRA' and status in ('ABERTO', 'RECUSADO') then 'TRIAGEM_FINANCEIRA'::crp.fase\n  when area in ('CONFERENCIA_PAGAMENTOS', 'CONTAS_A_PAGAR', 'CONFERENCIA_FISCAL')\n    and status in ('ABERTO', 'ENCERRADO', 'CONTESTADO') then 'CONCLUIDO'::crp.fase\n  when area in ('RELACIONAMENTO_PARCEIRO', 'APOIO_RELACIONAMENTO')\n    and status in ('ENCERRADO', 'CONTESTADO') then 'CONCLUIDO'::crp.fase\n  else 'EM_TRATATIVA'::crp.fase\nend",
+            "type": "stored"
+          }
+        },
+        "valor": {
+          "name": "valor",
+          "type": "numeric(14, 2)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "data_deposito": {
+          "name": "data_deposito",
+          "type": "date",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "data_entrada": {
+          "name": "data_entrada",
+          "type": "date",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "data_inicio": {
+          "name": "data_inicio",
+          "type": "date",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "data_conclusao": {
+          "name": "data_conclusao",
+          "type": "date",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "codigo_rastreio_antigo": {
+          "name": "codigo_rastreio_antigo",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "analista_hub": {
+          "name": "analista_hub",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "estagio_hub": {
+          "name": "estagio_hub",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "obs_hub": {
+          "name": "obs_hub",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "analista_central": {
+          "name": "analista_central",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "estagio_central": {
+          "name": "estagio_central",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "obs_central": {
+          "name": "obs_central",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "versao": {
+          "name": "versao",
+          "type": "bigint",
+          "primaryKey": false,
+          "notNull": true,
+          "default": 1
+        },
+        "criado_em": {
+          "name": "criado_em",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        },
+        "atualizado_em": {
+          "name": "atualizado_em",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        }
+      },
+      "indexes": {
+        "protocolos_destino_regiao_idx": {
+          "name": "protocolos_destino_regiao_idx",
+          "columns": [
+            {
+              "expression": "destino",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            },
+            {
+              "expression": "regiao",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "protocolos_parceiro_idx": {
+          "name": "protocolos_parceiro_idx",
+          "columns": [
+            {
+              "expression": "parceiro_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        }
+      },
+      "foreignKeys": {
+        "protocolos_regiao_regioes_codigo_fk": {
+          "name": "protocolos_regiao_regioes_codigo_fk",
+          "tableFrom": "protocolos",
+          "tableTo": "regioes",
+          "schemaTo": "crp",
+          "columnsFrom": [
+            "regiao"
+          ],
+          "columnsTo": [
+            "codigo"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        },
+        "protocolos_parceiro_id_parceiros_carteira_id_fk": {
+          "name": "protocolos_parceiro_id_parceiros_carteira_id_fk",
+          "tableFrom": "protocolos",
+          "tableTo": "parceiros_carteira",
+          "schemaTo": "crp",
+          "columnsFrom": [
+            "parceiro_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {
+        "protocolos_arquivo_tem_conclusao": {
+          "name": "protocolos_arquivo_tem_conclusao",
+          "value": "\"crp\".\"protocolos\".\"destino\" <> 'arquivo' or \"crp\".\"protocolos\".\"data_conclusao\" is not null"
+        },
+        "protocolos_base_coerente_com_deposito": {
+          "name": "protocolos_base_coerente_com_deposito",
+          "value": "(\"crp\".\"protocolos\".\"base\" = '2026' and extract(year from \"crp\".\"protocolos\".\"data_deposito\") = 2026)\n        or (\"crp\".\"protocolos\".\"base\" = '2024_2025' and extract(year from \"crp\".\"protocolos\".\"data_deposito\") between 2024 and 2025)"
+        },
+        "protocolos_valor_positivo": {
+          "name": "protocolos_valor_positivo",
+          "value": "\"crp\".\"protocolos\".\"valor\" > 0"
+        },
+        "protocolos_conclusao_apos_inicio": {
+          "name": "protocolos_conclusao_apos_inicio",
+          "value": "\"crp\".\"protocolos\".\"data_conclusao\" is null or \"crp\".\"protocolos\".\"data_conclusao\" >= \"crp\".\"protocolos\".\"data_inicio\""
+        }
+      },
+      "isRLSEnabled": false
+    },
+    "crp.regioes": {
+      "name": "regioes",
+      "schema": "crp",
+      "columns": {
+        "codigo": {
+          "name": "codigo",
+          "type": "text",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "nome": {
+          "name": "nome",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {
+        "regioes_nome_unique": {
+          "name": "regioes_nome_unique",
+          "nullsNotDistinct": false,
+          "columns": [
+            "nome"
+          ]
+        }
+      },
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    }
+  },
+  "enums": {
+    "audit.modo_execucao": {
+      "name": "modo_execucao",
+      "schema": "audit",
+      "values": [
+        "simulacao",
+        "gravacao"
+      ]
+    },
+    "audit.situacao_execucao": {
+      "name": "situacao_execucao",
+      "schema": "audit",
+      "values": [
+        "em_andamento",
+        "simulada",
+        "gravada",
+        "gravada_com_pendencia_painel",
+        "recusada",
+        "erro"
+      ]
+    },
+    "crp.area": {
+      "name": "area",
+      "schema": "crp",
+      "values": [
+        "TRIAGEM_FINANCEIRA",
+        "APOIO_RELACIONAMENTO",
+        "RELACIONAMENTO_PARCEIRO",
+        "AUDITORIA",
+        "CONFERENCIA_PAGAMENTOS",
+        "CONTAS_A_PAGAR",
+        "CONFERENCIA_FISCAL"
+      ]
+    },
+    "crp.base": {
+      "name": "base",
+      "schema": "crp",
+      "values": [
+        "2026",
+        "2024_2025"
+      ]
+    },
+    "crp.destino": {
+      "name": "destino",
+      "schema": "crp",
+      "values": [
+        "acompanhamento",
+        "arquivo",
+        "devolucao"
+      ]
+    },
+    "crp.tipo_equipe": {
+      "name": "tipo_equipe",
+      "schema": "crp",
+      "values": [
+        "hub",
+        "central"
+      ]
+    },
+    "crp.fase": {
+      "name": "fase",
+      "schema": "crp",
+      "values": [
+        "EM_AUDITORIA",
+        "TRIAGEM_FINANCEIRA",
+        "CONCLUIDO",
+        "EM_TRATATIVA"
+      ]
+    },
+    "crp.status": {
+      "name": "status",
+      "schema": "crp",
+      "values": [
+        "ABERTO",
+        "RECUSADO",
+        "ENCERRADO",
+        "CONTESTADO"
+      ]
+    }
+  },
+  "schemas": {
+    "audit": "audit",
+    "crp": "crp"
+  },
+  "sequences": {},
+  "roles": {},
+  "policies": {},
+  "views": {},
+  "_meta": {
+    "columns": {},
+    "schemas": {},
+    "tables": {}
+  }
+}

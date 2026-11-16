@@ -1,0 +1,22 @@
+{
+  "name": "@orvalia/db",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts",
+    "./testing": "./src/testing.ts"
+  },
+  "scripts": {
+    "typecheck": "tsc --noEmit -p tsconfig.json",
+    "db:generate": "drizzle-kit generate",
+    "db:migrate": "node src/scripts/migrar.ts"
+  },
+  "devDependencies": {
+    "drizzle-kit": "0.31.11"
+  },
+  "dependencies": {
+    "@electric-sql/pglite": "0.5.16",
+    "drizzle-orm": "0.45.4"
+  }
+}

@@ -15,4 +15,9 @@ export default tseslint.config(
       "@typescript-eslint/no-unused-vars": ["error", { argsIgnorePattern: "^_" }],
     },
   },
+  {
+    // Em teste, um valor ausente já faz o teste falhar; a asserção não esconde bug.
+    files: ["**/*.test.ts"],
+    rules: { "@typescript-eslint/no-non-null-assertion": "off" },
+  },
 );
