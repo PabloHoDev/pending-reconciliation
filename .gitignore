@@ -1,0 +1,28 @@
+# Dependências e builds
+node_modules/
+.next/
+dist/
+build/
+coverage/
+*.tsbuildinfo
+
+# Ambiente e segredos
+.env*
+!.env.example
+
+# Bancos locais (PGlite) e dados gerados
+.pglite/
+data/raw/
+data/processed/
+
+# Material privado, nunca vai para o repositório público
+.private/
+.sensitive-terms.txt
+
+# Editor e sistema
+.vscode/*
+!.vscode/extensions.json
+.idea/
+.DS_Store
+Thumbs.db
+*.log
