@@ -26,10 +26,10 @@ A regra de negócio que importa é: **cada protocolo está em exatamente um dest
 
 ## Alternativas consideradas
 
-| Opção | Por que não |
-|---|---|
-| Três tabelas (`tracking`, `archive`, `returns`) com mover = `INSERT` + `DELETE` | Reproduz o problema das planilhas. Exige *trigger* ou checagem para garantir o destino único, e a garantia fica no código, não no modelo |
-| Particionar `crp.protocolos` por `destino` | Ajuda em volumes muito maiores. Com dezenas de milhares de linhas, um índice por `destino` basta |
+| Opção                                                                           | Por que não                                                                                                                              |
+| ------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------- |
+| Três tabelas (`tracking`, `archive`, `returns`) com mover = `INSERT` + `DELETE` | Reproduz o problema das planilhas. Exige _trigger_ ou checagem para garantir o destino único, e a garantia fica no código, não no modelo |
+| Particionar `crp.protocolos` por `destino`                                      | Ajuda em volumes muito maiores. Com dezenas de milhares de linhas, um índice por `destino` basta                                         |
 
 ## Consequências
 
