@@ -34,14 +34,21 @@ Playwright · GitHub Actions · Vercel
 
 ## Documentação
 
-| Documento | Conteúdo |
-|---|---|
-| [Negócio da Orvalia](docs/negocio-orvalia.md) | Empresa, extrato e regras de negócio (RN-01…RN-11) |
-| [Modelo de dados](docs/modelo-de-dados.md) | Schemas por camada, tabelas, restrições e permissões |
-| [Telas](docs/telas.md) | Personas, telas e como o demo funciona no ar |
-| [Roteiro](docs/roadmap.md) | Etapas, critérios de pronto e marcos |
-| [ADRs](docs/adr/) | Decisões de arquitetura |
+| Documento                                     | Conteúdo                                             |
+| --------------------------------------------- | ---------------------------------------------------- |
+| [Negócio da Orvalia](docs/negocio-orvalia.md) | Empresa, extrato e regras de negócio (RN-01…RN-11)   |
+| [Modelo de dados](docs/modelo-de-dados.md)    | Schemas por camada, tabelas, restrições e permissões |
+| [Telas](docs/telas.md)                        | Personas, telas e como o demo funciona no ar         |
+| [Roteiro](docs/roadmap.md)                    | Etapas, critérios de pronto e marcos                 |
+| [ADRs](docs/adr/)                             | Decisões de arquitetura                              |
 
 ## Como rodar
 
-Disponível a partir da Etapa 0 (issue #3).
+Requer Node.js 24 (veja `.nvmrc`). Não precisa instalar banco: o local usa Postgres embutido (PGlite).
+
+```bash
+npm install
+npm run check   # format, lint, typecheck e testes, igual ao CI
+```
+
+A aplicação (`npm run dev`) chega no fim da Etapa 0 (issue #3).

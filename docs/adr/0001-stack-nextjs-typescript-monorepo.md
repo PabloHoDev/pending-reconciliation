@@ -23,7 +23,7 @@ publicar e de abrir por quem avalia o portfólio.
   - `packages/engine`: o motor. Funções puras (normalização, matching, funil, fase, destinos) e uma camada fina de
     acesso ao banco. Roda por CLI (`npm run engine -- --date 2026-02-03 --mode simulacao`) e é chamado pela
     aplicação no modo simulação.
-  - `packages/synth`: gerador do mundo Orvalia e do ERP diário, reprodutível por *seed*, com gabarito.
+  - `packages/synth`: gerador do mundo Orvalia e do ERP diário, reprodutível por _seed_, com gabarito.
   - `packages/db`: esquema Drizzle, migrations, papéis do banco e fábrica de conexão por ambiente (ADR-0002).
 - **Testes:** Vitest para unidade e integração (integração contra PGlite, ADR-0002), Playwright para os fluxos
   principais da interface.
@@ -33,11 +33,11 @@ publicar e de abrir por quem avalia o portfólio.
 
 ## Alternativas consideradas
 
-| Opção | Por que não |
-|---|---|
-| Python (pandas/DuckDB) + Streamlit | Ótimo para análise, mas o Streamlit não serve como aplicação de operação com papéis e edição. Teria duas linguagens no caminho crítico |
-| API Fastify + React/Vite | Mostra mais separação entre back e front, mas são dois deploys, e o plano gratuito do Render dorme quando fica sem uso, o que é ruim para quem abre o link |
-| Turborepo/pnpm | Útil em monorepos maiores. Com 4 pacotes, os npm workspaces bastam e dispensam ferramenta extra. Dá para migrar depois |
+| Opção                              | Por que não                                                                                                                                                |
+| ---------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Python (pandas/DuckDB) + Streamlit | Ótimo para análise, mas o Streamlit não serve como aplicação de operação com papéis e edição. Teria duas linguagens no caminho crítico                     |
+| API Fastify + React/Vite           | Mostra mais separação entre back e front, mas são dois deploys, e o plano gratuito do Render dorme quando fica sem uso, o que é ruim para quem abre o link |
+| Turborepo/pnpm                     | Útil em monorepos maiores. Com 4 pacotes, os npm workspaces bastam e dispensam ferramenta extra. Dá para migrar depois                                     |
 
 ## Consequências
 

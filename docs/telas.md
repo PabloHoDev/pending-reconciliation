@@ -5,34 +5,34 @@ dados sintéticos do dia de negócio atual.
 
 ## 1. Personas
 
-| Persona | Vê | Edita | Como entra |
-|---|---|---|---|
-| **Visitante** | Tudo | Nada. Roda simulações | Sem login |
-| **Analista do hub** (por região) | Tudo | `analista_hub`, `estagio_hub`, `obs_hub` dos protocolos **da sua região** | Escolhe a persona e a região na tela de entrada |
-| **Analista da Central** | Tudo | `analista_central`, `estagio_central`, `obs_central` de qualquer região | Escolhe a persona |
-| **Operador** | Tudo | Grava execuções, avança o calendário, programa defeitos, restaura o demo | Login real (GitHub OAuth), só o dono do repositório |
+| Persona                          | Vê   | Edita                                                                     | Como entra                                          |
+| -------------------------------- | ---- | ------------------------------------------------------------------------- | --------------------------------------------------- |
+| **Visitante**                    | Tudo | Nada. Roda simulações                                                     | Sem login                                           |
+| **Analista do hub** (por região) | Tudo | `analista_hub`, `estagio_hub`, `obs_hub` dos protocolos **da sua região** | Escolhe a persona e a região na tela de entrada     |
+| **Analista da Central**          | Tudo | `analista_central`, `estagio_central`, `obs_central` de qualquer região   | Escolhe a persona                                   |
+| **Operador**                     | Tudo | Grava execuções, avança o calendário, programa defeitos, restaura o demo  | Login real (GitHub OAuth), só o dono do repositório |
 
 As personas de demonstração usam uma sessão assinada (cookie `httpOnly`). A autorização é sempre conferida **no
 servidor**, a cada ação, e o banco tem a segunda camada (`modelo-de-dados.md`, seção 5).
 
 ## 2. Mapa das telas
 
-| Rota | Tela | O que mostra / faz |
-|---|---|---|
-| `/` | **Início** | O problema da Orvalia, a arquitetura em um diagrama, o dia de negócio atual e um roteiro de 3 minutos para explorar |
-| `/painel` | **Painel CRP** | KPIs (abertos, concluídos na semana, taxa de conclusão, aging p50/p90), funil do último dia, backlog por região, gráfico de controle do volume diário com as anomalias marcadas, throughput semanal e previsão de backlog |
-| `/execucoes` | **Execuções** | Histórico de execuções: modo, situação, hash, contagens, tempo por etapa, score de anomalia |
-| `/execucoes/[id]` | **Execução do dia** | As abas da conferência (Novos, Atualizações, Conclusão, Para o arquivo, Para devolução, Quebras de regra, Por parceiro, Avisos, Descartados com motivo, Resumo) e o download `.xlsx` |
-| `/execucoes/simular` | **Simular** | Roda o motor em modo simulação sobre o extrato do dia, opcionalmente com um defeito injetado, e mostra o resultado **sem gravar** |
-| `/acompanhamento` | **Acompanhamento** | Uma guia por região (R01…R13), com filtros (fase, parceiro, idade, estágio). Os campos da equipe são editáveis conforme a persona, e todo o resto é só leitura |
-| `/protocolos/[id]` | **Protocolo** | Dados, linha do tempo das fases (SCD2) e todas as alterações (antes/depois, motor ou usuário) |
-| `/arquivo` | **Arquivo** | Concluídos por ano do depósito |
-| `/devolucoes` | **Devoluções** | Devolvidos (abertos e concluídos) e os marcados em um estágio só, que ainda não são devolução |
-| `/quebras-de-regra` | **Quebras de regra** | Protocolos com área ou status em branco, desde quando e em qual execução |
-| `/cadastro` | **Cadastro** | Carteira, equipe, aliases de parceiros e avisos de nome parecido para revisar |
-| `/auditoria` | **Auditoria** | Todas as alterações, com filtro por protocolo, campo, origem e período |
-| `/erp` | **ERP Orvalia** | A origem simulada, com visual de sistema legado: o extrato do dia (download CSV), o calendário e, para o operador, defeitos programados |
-| `/sobre` | **Sobre o projeto** | Decisões (ADRs), modelo de dados e links para o código |
+| Rota                 | Tela                 | O que mostra / faz                                                                                                                                                                                                        |
+| -------------------- | -------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `/`                  | **Início**           | O problema da Orvalia, a arquitetura em um diagrama, o dia de negócio atual e um roteiro de 3 minutos para explorar                                                                                                       |
+| `/painel`            | **Painel CRP**       | KPIs (abertos, concluídos na semana, taxa de conclusão, aging p50/p90), funil do último dia, backlog por região, gráfico de controle do volume diário com as anomalias marcadas, throughput semanal e previsão de backlog |
+| `/execucoes`         | **Execuções**        | Histórico de execuções: modo, situação, hash, contagens, tempo por etapa, score de anomalia                                                                                                                               |
+| `/execucoes/[id]`    | **Execução do dia**  | As abas da conferência (Novos, Atualizações, Conclusão, Para o arquivo, Para devolução, Quebras de regra, Por parceiro, Avisos, Descartados com motivo, Resumo) e o download `.xlsx`                                      |
+| `/execucoes/simular` | **Simular**          | Roda o motor em modo simulação sobre o extrato do dia, opcionalmente com um defeito injetado, e mostra o resultado **sem gravar**                                                                                         |
+| `/acompanhamento`    | **Acompanhamento**   | Uma guia por região (R01…R13), com filtros (fase, parceiro, idade, estágio). Os campos da equipe são editáveis conforme a persona, e todo o resto é só leitura                                                            |
+| `/protocolos/[id]`   | **Protocolo**        | Dados, linha do tempo das fases (SCD2) e todas as alterações (antes/depois, motor ou usuário)                                                                                                                             |
+| `/arquivo`           | **Arquivo**          | Concluídos por ano do depósito                                                                                                                                                                                            |
+| `/devolucoes`        | **Devoluções**       | Devolvidos (abertos e concluídos) e os marcados em um estágio só, que ainda não são devolução                                                                                                                             |
+| `/quebras-de-regra`  | **Quebras de regra** | Protocolos com área ou status em branco, desde quando e em qual execução                                                                                                                                                  |
+| `/cadastro`          | **Cadastro**         | Carteira, equipe, aliases de parceiros e avisos de nome parecido para revisar                                                                                                                                             |
+| `/auditoria`         | **Auditoria**        | Todas as alterações, com filtro por protocolo, campo, origem e período                                                                                                                                                    |
+| `/erp`               | **ERP Orvalia**      | A origem simulada, com visual de sistema legado: o extrato do dia (download CSV), o calendário e, para o operador, defeitos programados                                                                                   |
+| `/sobre`             | **Sobre o projeto**  | Decisões (ADRs), modelo de dados e links para o código                                                                                                                                                                    |
 
 ## 3. Como o "mundo" da Orvalia anda no ar
 
