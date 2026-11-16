@@ -1,0 +1,31 @@
+name: Bug
+description: Algo não funciona como a regra de negócio diz
+labels: [bug]
+body:
+  - type: textarea
+    id: esperado
+    attributes:
+      label: Comportamento esperado
+      description: O que deveria acontecer (cite a RN-xx, se houver).
+    validations:
+      required: true
+  - type: textarea
+    id: atual
+    attributes:
+      label: Comportamento atual
+    validations:
+      required: true
+  - type: textarea
+    id: reproduzir
+    attributes:
+      label: Como reproduzir
+      description: Seed, dia de negócio, persona e passos.
+    validations:
+      required: true
+  - type: dropdown
+    id: ambiente
+    attributes:
+      label: Ambiente
+      options: [Local, Preview, Produção (demo)]
+    validations:
+      required: true
