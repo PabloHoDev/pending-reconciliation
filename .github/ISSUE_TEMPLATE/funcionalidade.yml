@@ -1,0 +1,25 @@
+name: Funcionalidade
+description: Proponha uma funcionalidade ou melhoria
+labels: [enhancement]
+body:
+  - type: textarea
+    id: problema
+    attributes:
+      label: Problema
+      description: Qual dor ou necessidade da CRP isso resolve?
+    validations:
+      required: true
+  - type: textarea
+    id: proposta
+    attributes:
+      label: Proposta
+      description: Como deve funcionar. Cite as regras RN-xx envolvidas.
+    validations:
+      required: true
+  - type: textarea
+    id: pronto
+    attributes:
+      label: Pronto quando
+      description: Critérios de aceite verificáveis.
+    validations:
+      required: true
