@@ -21,5 +21,9 @@ Antes de mexer em regra, leia `docs/negocio-orvalia.md` (RN-01…RN-11) e `docs/
 
 ## Comandos
 
-Disponíveis a partir da Etapa 0 (issue #3): `npm run dev`, `npm test`, `npm run lint`, `npm run typecheck`,
-`npm run synth`, `npm run engine`.
+- `npm run check`: tudo o que o CI roda (format, lint, typecheck, testes). Rode antes de cada push.
+- `npm test` / `npm run test:watch`, `npm run lint`, `npm run typecheck`, `npm run format`.
+- Pacotes TypeScript são consumidos direto do código-fonte (`exports` apontando para `src/*.ts`), sem build.
+  Imports relativos usam a extensão `.ts`.
+- TypeScript fixado em 6.0 enquanto o typescript-eslint não suportar o 7.
+- Em breve: `npm run dev` (Etapa 0), `npm run synth` (Etapa 1), `npm run engine` (Etapa 2).
