@@ -17,7 +17,9 @@
     "test": "vitest run",
     "test:watch": "vitest",
     "build": "npm run build --workspaces --if-present",
-    "check": "npm run format:check && npm run lint && npm run typecheck && npm test"
+    "check": "npm run format:check && npm run lint && npm run typecheck && npm test",
+    "db:migrate": "npm run db:migrate -w @orvalia/db",
+    "db:generate": "npm run db:generate -w @orvalia/db"
   },
   "devDependencies": {
     "@eslint/js": "10.0.1",
@@ -30,6 +32,9 @@
     "vitest": "5.1.0"
   },
   "overrides": {
-    "minimatch": "^11.0.8"
+    "minimatch": "^11.0.8",
+    "@esbuild-kit/core-utils": {
+      "esbuild": ">=0.25.0"
+    }
   }
 }
