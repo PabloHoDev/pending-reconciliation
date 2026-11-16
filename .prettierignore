@@ -1,0 +1,7 @@
+node_modules
+.next
+coverage
+dist
+.pglite
+package-lock.json
+**/drizzle/meta
