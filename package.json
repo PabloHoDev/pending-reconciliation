@@ -10,6 +10,7 @@
     "packages/*"
   ],
   "scripts": {
+    "dev": "npm run dev -w @orvalia/web",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
     "lint": "eslint .",

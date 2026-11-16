@@ -50,6 +50,6 @@ Requer Node.js 24 (veja `.nvmrc`). Não precisa instalar banco: o local usa Post
 npm install
 npm run check       # format, lint, typecheck e testes, igual ao CI
 npm run db:migrate  # cria o banco local em .pglite/ com o esquema atual
+npm run dev         # aplicação web em http://localhost:3000
+npm run build       # build de produção da aplicação, igual ao CI
 ```
-
-A aplicação (`npm run dev`) chega no fim da Etapa 0 (issue #3).

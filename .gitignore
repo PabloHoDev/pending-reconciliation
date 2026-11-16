@@ -26,3 +26,6 @@ data/processed/
 .DS_Store
 Thumbs.db
 *.log
+
+# Next.js (gerado por next dev/build/typegen)
+next-env.d.ts

@@ -35,4 +35,7 @@ Antes de mexer em regra, leia `docs/negocio-orvalia.md` (RN-01…RN-11) e `docs/
 - `npm run db:migrate`: aplica as migrations no banco local (`.pglite/`, ou `PGLITE_DIR`).
 - Testes com banco usam `criarBancoDeTeste()` (PGlite em memória, já migrado) e `TIMEOUT_BANCO_MS` em hooks/testes
   que abrem banco.
-- Em breve: `npm run dev` (Etapa 0), `npm run synth` (Etapa 1), `npm run engine` (Etapa 2).
+- `npm run dev`: aplicação web (`apps/web`, Next.js) em `localhost:3000`. `npm run build` compila como no CI.
+- `@orvalia/db` exporta só domínio e esquema (código puro). O cliente PGlite fica em `@orvalia/db/client`: a aplicação
+  web não deve importá-lo, senão o build tenta empacotar caminhos de disco e o WASM.
+- Em breve: `npm run synth` (Etapa 1), `npm run engine` (Etapa 2).
