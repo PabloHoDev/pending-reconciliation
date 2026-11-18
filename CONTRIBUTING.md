@@ -34,6 +34,16 @@ O projeto segue o fluxo de uma equipe de produto: tudo começa numa issue e entr
 - Toda regra de negócio tem teste com o ID dela (`RN-xx`). Um bug corrigido ganha um teste que o reproduz.
 - Uma mudança de decisão de arquitetura vem com um ADR em `docs/adr/NNNN-titulo.md`.
 
+## Antes de cada push
+
+O repositório é público. Antes de enviar uma branch:
+
+- [ ] `npm run check` verde.
+- [ ] Busca pelos termos da lista local (`.sensitive-terms.txt`, fora do Git) sem resultado nos arquivos alterados.
+- [ ] Nenhum `.xlsx`, `.csv` ou log que não tenha saído do `packages/synth`.
+- [ ] Notebooks com as saídas limpas ou geradas só a partir do sintético.
+- [ ] Prints e GIFs só da aplicação rodando com dados sintéticos.
+
 ## Ambientes
 
 | Ambiente        | Banco                | Deploy                |

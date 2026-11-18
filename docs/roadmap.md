@@ -18,7 +18,8 @@ SemVer com release notes.
 ## O que o projeto mostra
 
 - **Engenharia de dados:** camadas raw → staging → domínio → analytics, contratos de esquema, pipeline idempotente,
-  histórico SCD2, orquestração diária, orçamento de armazenamento.
+  histórico SCD2, orquestração diária, orçamento de armazenamento e otimização medida: perfil de memória e de
+  tempo antes e depois, com um teste de equivalência provando que o resultado não mudou.
 - **Ciência de dados:** dados sintéticos com distribuições realistas e gabarito, resolução de entidades avaliada,
   detecção de anomalias robusta e previsão com baseline.
 - **Fullstack:** Next.js com autorização no servidor, permissões por coluna no banco, controle otimista de

@@ -179,7 +179,23 @@ do cadastro. Se o nome for de um parceiro conhecido de fora da carteira, o aviso
 - **Histórico de execuções:** versão do motor e das regras, hash SHA-256 do extrato, contagens e tempo por etapa.
 - **Auditoria:** cada alteração (protocolo, campo, antes, depois, quem: motor ou usuário).
 
-## 6. Glossário
+## 6. Dados sintéticos
+
+O mundo da Orvalia é gerado pelo `packages/synth` com semente fixa, para que toda execução seja reproduzível. O
+gerador grava também o **gabarito** (o que cada regra deveria fazer), usado nos testes e na avaliação do matching.
+
+| Elemento              | Como é simulado                                                                                                                                                                                                 |
+| --------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Volume diário         | ~40 mil linhas por extrato e poucas dezenas de protocolos novos da carteira por dia, com sazonalidade (segunda-feira e fim de mês mais altos)                                                                   |
+| Valor                 | Log-normal, com mediana perto de R$ 800 e cauda longa                                                                                                                                                           |
+| Parceiros             | ~20 na carteira e ~2 mil fora dela. 5 % das linhas da carteira trazem o nome digitado de outro jeito (acento, `LTDA`/`LTDA.`, espaço duplo), e 2 parceiros da carteira têm nome parecido com um de fora (RN-11) |
+| Ciclo de vida         | Cadeia de Markov de área e status por dia; ~3 % dos concluídos reabrem (RN-05)                                                                                                                                  |
+| Backlog               | 15 % dos protocolos com depósito em 2024-2025 (RN-02)                                                                                                                                                           |
+| Devoluções            | ~1 % marcados nos dois estágios e outro ~1 % em um só, para exercitar a RN-07                                                                                                                                   |
+| Defeitos de propósito | Protocolo repetido no extrato, data inválida, área ou status em branco (RN-08), um dia com extrato filtrado (3 mil linhas) e um dia com extrato velho                                                           |
+| Equipe                | 13 analistas de hub e 4 da Central, com nomes gerados                                                                                                                                                           |
+
+## 7. Glossário
 
 | Termo           | Significado                                                         |
 | --------------- | ------------------------------------------------------------------- |
